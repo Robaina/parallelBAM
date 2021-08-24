@@ -13,7 +13,6 @@ lib
 lib64
 
 __pycache__
-.ipynb-checkpoints
+.ipynb_checkpoints
 
 *.ipynb
-
