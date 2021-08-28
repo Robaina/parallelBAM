@@ -30,7 +30,6 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=['parallelbam'],
-      scripts=['parallelbam/bash_scripts/splitBAM.sh', 'parallelbam/bash_scripts/mergeBAMs.sh']
+      scripts=['parallelbam/bash_scripts/splitBAM.sh', 'parallelbam/bash_scripts/mergeBAMs.sh'],
+      install_requires=[]
       )
-
-# install_requires=['os', 'shutil', 'subprocess', 'multiprocessing', 'math']
