@@ -16,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/parallelBAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.7'
+VERSION = '0.0.8'
 
 setup(name=NAME,
       version=VERSION,
