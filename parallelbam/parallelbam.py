@@ -1,10 +1,15 @@
 import os
+from pathlib import Path
 import shutil
 import math
 import subprocess
 from multiprocessing import Process
 import string
 import random
+
+path = os.path.abspath(__file__)
+dir_path = os.path.dirname(path)
+path_to_bash_scripts = str(Path(dir_path).parents[3])
 
 def getRandomString(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -33,7 +38,7 @@ def splitBAM(path_to_bam: str, n_parts: int) -> None:
     part_size = math.ceil(n_reads / n_parts) + 1
     
     subprocess.run(
-        ['../../../../bin/splitBAM.sh',
+        [os.path.join(path_to_bash_scripts, 'bin', 'splitBAM.sh'),
          bam_dir,
          bam_file,
          str(part_size)]
@@ -44,7 +49,7 @@ def mergeBAMs(bam_files_dir: str, output_dir: str) -> None:
     Merge bam files into a single bam
     """
     subprocess.run(
-        ['../../../../bin/mergeBAMs.sh',
+        [os.path.join(path_to_bash_scripts, 'bin', 'mergeBAMs.sh'),
          bam_files_dir]
     )
     
