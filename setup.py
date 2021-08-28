@@ -30,7 +30,7 @@ setup(name=NAME,
       url=DOWNLOAD_URL,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
-      py_modules=['parallelbam'],
+      packages=['parallelbam'],
       scripts=['bash_scripts/splitBAM.sh', 'bash_scripts/mergeBAMs.sh'],
       install_requires=[]
       )
