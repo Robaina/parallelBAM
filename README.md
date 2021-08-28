@@ -12,6 +12,10 @@ Depends on:
 
 # Installation
 
+```pip3 install parallelbam```
+
+or
+
 1. Git clone project
 2. cd to cloned project directory
 3. ```sudo python3 setup.py install```
