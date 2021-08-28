@@ -1,6 +1,7 @@
 from setuptools import setup
 from os import path
 
+
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), 'r', encoding='utf-8') as f:
     long_description = f.read()
@@ -15,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/parallelBAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 setup(name=NAME,
       version=VERSION,
@@ -29,7 +30,7 @@ setup(name=NAME,
       url=DOWNLOAD_URL,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
-      packages=['parallelbam'],
-      scripts=['parallelbam/bash_scripts/splitBAM.sh', 'parallelbam/bash_scripts/mergeBAMs.sh'],
+      py_modules=['parallelbam'],
+      scripts=['bash_scripts/splitBAM.sh', 'bash_scripts/mergeBAMs.sh'],
       install_requires=[]
       )
