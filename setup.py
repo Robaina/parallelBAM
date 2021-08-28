@@ -16,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/parallelBAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.2'
+VERSION = '0.0.4'
 
 setup(name=NAME,
       version=VERSION,
@@ -31,6 +31,6 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=['parallelbam'],
-      scripts=['bash_scripts/splitBAM.sh', 'bash_scripts/mergeBAMs.sh'],
+      scripts=['parallelbam/bash_scripts/splitBAM.sh', 'parallelbam/bash_scripts/mergeBAMs.sh'],
       install_requires=[]
       )
