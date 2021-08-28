@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Split large BAM file into chunks of given maximum size
 # bash splitBAM.sh input.bam n_reads_in_chunk
