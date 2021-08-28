@@ -3,7 +3,11 @@ import shutil
 import math
 import subprocess
 from multiprocessing import Process
+import string
+import random
 
+def getRandomString(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def getNumberOfReads(path_to_bam: str) -> int:
     """
@@ -67,7 +71,7 @@ def parallelizeBAMoperation(path_to_bam: str,
     path_to_bam = os.path.abspath(path_to_bam)
     bam_dir = os.path.dirname(path_to_bam)
     chunks_dir = os.path.join(bam_dir, 'temp_BAM_chunks')
-    processed_chunks_dir = os.path.join(bam_dir, 'temp_processed_chunks')
+    processed_chunks_dir = os.path.join(bam_dir, f'temp_processed_chunks{getRandomString()}')
     os.mkdir(processed_chunks_dir)
     if output_dir is None:
         output_dir = os.path.join(bam_dir, 'processed.bam')
