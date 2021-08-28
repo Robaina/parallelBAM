@@ -29,7 +29,7 @@ def splitBAM(path_to_bam: str, n_parts: int) -> None:
     part_size = math.ceil(n_reads / n_parts) + 1
     
     subprocess.run(
-        ['../../../bin/splitBAM.sh',
+        ['../../../../bin/splitBAM.sh',
          bam_dir,
          bam_file,
          str(part_size)]
@@ -40,7 +40,7 @@ def mergeBAMs(bam_files_dir: str, output_dir: str) -> None:
     Merge bam files into a single bam
     """
     subprocess.run(
-        ['../../../bin/mergeBAMs.sh',
+        ['../../../../bin/mergeBAMs.sh',
          bam_files_dir]
     )
     
