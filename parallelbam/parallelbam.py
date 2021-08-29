@@ -44,7 +44,7 @@ def splitBAM(path_to_bam: str, n_parts: int) -> None:
          str(part_size)]
     )
     
-def mergeBAMs(bam_files_dir: str, output_dir: str) -> None:
+def mergeBAMs(bam_files_dir: str, output_path: str) -> None:
     """
     Merge bam files into a single bam
     """
@@ -53,11 +53,11 @@ def mergeBAMs(bam_files_dir: str, output_dir: str) -> None:
          bam_files_dir]
     )
     
-    os.rename(os.path.join(bam_files_dir, 'merged.bam'), output_dir)
+    os.rename(os.path.join(bam_files_dir, 'merged.bam'), output_path)
 
 def parallelizeBAMoperation(path_to_bam: str,
                             callback, callback_additional_args: list = [], 
-                            output_dir: str = None,
+                            output_path: str = None,
                             n_processes: int = 2) -> None:
     """
     Parallelize operation on a large BAM
@@ -78,25 +78,25 @@ def parallelizeBAMoperation(path_to_bam: str,
     chunks_dir = os.path.join(bam_dir, 'temp_BAM_chunks')
     processed_chunks_dir = os.path.join(bam_dir, f'temp_processed_chunks{getRandomString()}')
     os.mkdir(processed_chunks_dir)
-    if output_dir is None:
-        output_dir = os.path.join(bam_dir, 'processed.bam')
+    if output_path is None:
+        output_path = os.path.join(bam_dir, 'processed.bam')
     
     splitBAM(path_to_bam, n_parts=n_processes)
     
     processes = []
     for n in range(n_processes):
         
-        p_input_dir = os.path.join(chunks_dir, f'{n + 1}.bam')
-        p_output_dir = os.path.join(processed_chunks_dir, f'out{n + 1}.bam')
+        p_input_path = os.path.join(chunks_dir, f'{n + 1}.bam')
+        p_output_path = os.path.join(processed_chunks_dir, f'out{n + 1}.bam')
         
-        cb_args = tuple([p_input_dir, p_output_dir] + callback_additional_args)
+        cb_args = tuple([p_input_path, p_output_path] + callback_additional_args)
         processes.append(
             Process(target=callback, args=cb_args)
         )
         processes[-1].start()
         processes[-1].join()
 
-    mergeBAMs(processed_chunks_dir, output_dir)
+    mergeBAMs(processed_chunks_dir, output_path)
     
     shutil.rmtree(processed_chunks_dir, ignore_errors=True)
     shutil.rmtree(chunks_dir, ignore_errors=True)    
