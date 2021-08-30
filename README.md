@@ -37,6 +37,7 @@ in this order.
 # TODO
 
 1. The current way to include bash scripts in the package, while working, seems awkward. Perhaps including bash code directly in subprocess would be simpler
+2. Having permission error in some installations upon calling splitBAM.sh, can one make it executable during installation?
 
 
 ```python
