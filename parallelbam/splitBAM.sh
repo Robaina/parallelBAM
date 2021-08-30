@@ -16,7 +16,7 @@ mkdir -p temp_BAM_chunks
 samtools sort -n -O SAM $2|awk -v n=$3 -v FS="\t" '
 BEGIN { part=0; line=n }  
 /^@/ {header = header$0"\n"; next;}  
-{ if( line>=n && $1!=last_read ) {print part,line; part++; line=1;}  
+{ if( line>=n && $1!=last_read ) {part++; line=1;}  
   print line==1 ? header""$0 : $0 | "samtools view -b -o temp_BAM_chunks/"part".bam" 
   last_read = $1;
   line++;
