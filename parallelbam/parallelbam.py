@@ -99,4 +99,12 @@ def parallelizeBAMoperation(path_to_bam: str,
     mergeBAMs(processed_chunks_dir, output_path)
     
     shutil.rmtree(processed_chunks_dir, ignore_errors=True)
-    shutil.rmtree(chunks_dir, ignore_errors=True)    
+    shutil.rmtree(chunks_dir, ignore_errors=True)
+    try:
+        os.rmdir(processed_chunks_dir)
+    except:
+        pass
+    try:
+        os.rmdir(chunks_dir)
+    except:
+        pass
