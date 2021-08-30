@@ -10,6 +10,15 @@ import random
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 path_to_bash_scripts = str(Path(dir_path).parents[3])
+# # Make bash scripts executable
+# subprocess.run(
+#     [f'chmod +x {os.path.join(path_to_bash_scripts, "splitBAM.sh")}'],
+#     shell=True
+# )
+# subprocess.run(
+#     [f'chmod +x {os.path.join(path_to_bash_scripts, "mergeBAMs.sh")}'],
+#     shell=True
+# )
 
 def getRandomString(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -100,11 +109,11 @@ def parallelizeBAMoperation(path_to_bam: str,
     
     shutil.rmtree(processed_chunks_dir, ignore_errors=True)
     shutil.rmtree(chunks_dir, ignore_errors=True)
-    try:
-        os.rmdir(processed_chunks_dir)
-    except:
-        pass
-    try:
-        os.rmdir(chunks_dir)
-    except:
-        pass
+#     try:
+#         os.rmdir(processed_chunks_dir)
+#     except:
+#         pass
+#     try:
+#         os.rmdir(chunks_dir)
+#     except:
+#         pass
