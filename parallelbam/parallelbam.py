@@ -50,7 +50,8 @@ def splitBAM(path_to_bam: str, n_parts: int) -> None:
         [os.path.join(path_to_bash_scripts, 'bin', 'splitBAM.sh'),
          bam_dir,
          bam_file,
-         str(part_size)]
+         str(part_size)],
+         shell=True
     )
     
 def mergeBAMs(bam_files_dir: str, output_path: str) -> None:
@@ -59,7 +60,8 @@ def mergeBAMs(bam_files_dir: str, output_path: str) -> None:
     """
     subprocess.run(
         [os.path.join(path_to_bash_scripts, 'bin', 'mergeBAMs.sh'),
-         bam_files_dir]
+         bam_files_dir],
+         shell=True
     )
     
     os.rename(os.path.join(bam_files_dir, 'merged.bam'), output_path)
