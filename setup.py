@@ -31,6 +31,6 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=find_packages(),
-      scripts=['parallelbam/splitBAM.sh'],
+      scripts=['parallelbam/splitBAM.sh', 'parallelbam/mergeBAMs.sh'],
       install_requires=[]
       )
