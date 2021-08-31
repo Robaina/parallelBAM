@@ -61,11 +61,6 @@ def mergeBAMs(bam_files_dir: str, output_path: str) -> None:
         [os.path.join(path_to_bash_scripts, 'bin', 'mergeBAMs.sh'),
          bam_files_dir]
     )
-    # subprocess.run(
-    #     ['samtools', 'merge', 'merged.bam', '*.bam'],
-    #     cwd=bam_files_dir,
-    #     shell=True
-    # )
     os.rename(os.path.join(bam_files_dir, 'merged.bam'), output_path)
 
 def parallelizeBAMoperation(path_to_bam: str,
@@ -98,7 +93,6 @@ def parallelizeBAMoperation(path_to_bam: str,
     
     processes = []
     for n in range(n_processes):
-        
         p_input_path = os.path.join(chunks_dir, f'{n + 1}.bam')
         p_output_path = os.path.join(processed_chunks_dir, f'out{n + 1}.bam')
         
@@ -106,9 +100,11 @@ def parallelizeBAMoperation(path_to_bam: str,
         processes.append(
             Process(target=callback, args=cb_args)
         )
-        processes[-1].start()
-        processes[-1].join()
-
+    for p in processes:
+        p.start()   
+    for p in processes:
+        p.join()
+   
     mergeBAMs(processed_chunks_dir, output_path)
     
     shutil.rmtree(processed_chunks_dir, ignore_errors=True)

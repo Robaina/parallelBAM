@@ -20,6 +20,9 @@ or
 2. cd to cloned project directory
 3. ```sudo python3 setup.py install```
 
+Better to install within an environment, such as a conda environment, to avoid
+path conflicts with the included bash scripts.
+
 # Usage
 
 There is one main function named ```parallelizedBAMoperation```. This function takes as mandatory arguments:
