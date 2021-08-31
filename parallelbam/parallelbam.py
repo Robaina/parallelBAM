@@ -12,11 +12,11 @@ dir_path = os.path.dirname(path)
 path_to_bash_scripts = str(Path(dir_path).parents[3])
 # Make bash scripts executable
 subprocess.run(
-    [f'chmod +x {os.path.join(path_to_bash_scripts, "splitBAM.sh")}'],
+    [f'chmod +x {os.path.join(path_to_bash_scripts, "bin", "splitBAM.sh")}'],
     shell=True
 )
 subprocess.run(
-    [f'chmod +x {os.path.join(path_to_bash_scripts, "mergeBAMs.sh")}'],
+    [f'chmod +x {os.path.join(path_to_bash_scripts, "bin", "mergeBAMs.sh")}'],
     shell=True
 )
 
