@@ -10,14 +10,17 @@ import random
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 path_to_bash_scripts = str(Path(dir_path).parents[3])
+splitBAM_file = os.path.join(path_to_bash_scripts, "bin", "splitBAM.sh")
+if not os.path.exists(splitBAM_file):
+    path_to_bash_scripts = str(Path(dir_path).parents[4])
 # Make bash scripts executable
 subprocess.run(
-    [f'chmod +x {os.path.join(path_to_bash_scripts, "bin", "splitBAM.sh")}'],
-    shell=True
+[f'chmod +x {os.path.join(path_to_bash_scripts, "bin", "splitBAM.sh")}'],
+shell=True
 )
 subprocess.run(
-    [f'chmod +x {os.path.join(path_to_bash_scripts, "bin", "mergeBAMs.sh")}'],
-    shell=True
+[f'chmod +x {os.path.join(path_to_bash_scripts, "bin", "mergeBAMs.sh")}'],
+shell=True
 )
 
 def getRandomString(size=6, chars=string.ascii_uppercase + string.digits):
