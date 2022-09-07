@@ -8,11 +8,11 @@ SAM/BAM files are typically large, thus, operations on these files are time inte
 
 Depends on:
 
-1. Samtools
+1. Samtools, can be installed with [conda](https://anaconda.org/bioconda/samtools)
 
 # Installation
 
-```pip3 install parallelbam```
+```pip install parallelbam```
 
 or
 
