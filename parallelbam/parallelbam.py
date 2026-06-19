@@ -38,22 +38,32 @@ def getNumberOfReads(path_to_bam: str) -> int:
         ).stdout.decode('utf-8').replace('\n', '')
     )
     
-def splitBAM(path_to_bam: str, n_parts: int) -> None:
+def splitBAM(path_to_bam: str, n_parts: int,
+             sort_by_name: bool = True, n_threads: int = 1) -> None:
     """
     Split BAM file into N parts of roughly equal size
+
+    sort_by_name: if True (default), reads are name-sorted before splitting so
+    that reads sharing a query name (e.g. mates) stay within the same chunk.
+    This requires a full serial sort of the whole file. Set to False for
+    order-independent, per-read operations to skip the sort (much faster).
+
+    n_threads: number of threads passed to the samtools name-sort.
     """
     path_to_bam = os.path.abspath(path_to_bam)
     bam_dir = os.path.dirname(path_to_bam)
     bam_file = os.path.basename(path_to_bam)
-    
+
     n_reads = getNumberOfReads(path_to_bam)
     part_size = math.ceil(n_reads / n_parts) + 1
-    
+
     subprocess.run(
         [os.path.join(path_to_bash_scripts, 'bin', 'splitBAM.sh'),
          bam_dir,
          bam_file,
-         str(part_size)]
+         str(part_size),
+         '1' if sort_by_name else '0',
+         str(n_threads)]
     )
     
 def mergeBAMs(bam_files_dir: str, output_path: str) -> None:
@@ -67,22 +77,30 @@ def mergeBAMs(bam_files_dir: str, output_path: str) -> None:
     os.rename(os.path.join(bam_files_dir, 'merged.bam'), output_path)
 
 def parallelizeBAMoperation(path_to_bam: str,
-                            callback, callback_additional_args: list = [], 
+                            callback, callback_additional_args: list = [],
                             output_path: str = None,
-                            n_processes: int = 2) -> None:
+                            n_processes: int = 2,
+                            sort_by_name: bool = True) -> None:
     """
     Parallelize operation on a large BAM
-    
+
     This function splits the BAM file into as many chunks as the provided number of
     processes, calls function on a separate process for each chunk and then merges
     the outputs into a single (result) BAM file.
-    
+
     callback: python function object. The first two arguments must be the path to
     the input BAM and the path to the ouput (processed) bam file.
-    
-    callback_additional_args: List containing additional arguments to callback, the 
+
+    callback_additional_args: List containing additional arguments to callback, the
     first argument must be left for the str containing the path to the BAM file
-    
+
+    sort_by_name: if True (default), the BAM is name-sorted before splitting so
+    that reads sharing a query name (e.g. mates) stay within the same chunk. This
+    is a full serial sort of the whole file and is often the dominant cost. Set to
+    False when the callback operates on each read independently (e.g. filtering by
+    per-read identity) to skip the sort and split the file as-is, which is much
+    faster on large inputs.
+
     """
     path_to_bam = os.path.abspath(path_to_bam)
     bam_dir = os.path.dirname(path_to_bam)
@@ -92,7 +110,8 @@ def parallelizeBAMoperation(path_to_bam: str,
     if output_path is None:
         output_path = os.path.join(bam_dir, 'processed.bam')
     
-    splitBAM(path_to_bam, n_parts=n_processes)
+    splitBAM(path_to_bam, n_parts=n_processes,
+             sort_by_name=sort_by_name, n_threads=n_processes)
     
     processes = []
     for n in range(n_processes):
