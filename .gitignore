@@ -14,3 +14,7 @@ lib64
 
 __pycache__
 .ipynb_checkpoints
+.pytest_cache
+
+# Default output written next to the input by parallelizeBAMoperation
+parallelbam/tests/processed.bam
