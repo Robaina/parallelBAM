@@ -62,6 +62,15 @@ parallelizeBAMoperation('sample.bam',
                         n_processes=8)
 ```
 
+By default the BAM is name-sorted before splitting so that reads sharing a query name (e.g. mates) end up in the same chunk. This sort is a full, serial pass over the whole file and is often the dominant cost on large inputs. If your callback processes each read independently (e.g. filtering by per-read identity), pass ```sort_by_name=False``` to skip the sort and split the file as-is, which is substantially faster:
+
+```python
+parallelizeBAMoperation('sample.bam',
+                        foo, output_path=None,
+                        n_processes=8,
+                        sort_by_name=False)
+```
+
 To check that the processed bam file, after merging the 8 chunks, contains the same number of reads we can call ```getNumberOfReads```.
 
 

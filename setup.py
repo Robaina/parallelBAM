@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), 'r', encoding='utf-8') as f:
     long_description = f.read()
 
 DESCRIPTION = 'Tools to parallelize operations on large BAM files'
-LONG_DESCRIPTION = long_description,
+LONG_DESCRIPTION = long_description
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown'
 NAME = 'parallelbam'
 AUTHOR = "Semidán Robaina Estévez"
@@ -16,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/parallelBAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.19'
+VERSION = '0.0.20'
 
 setup(name=NAME,
       version=VERSION,
