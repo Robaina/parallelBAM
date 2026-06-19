@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: tests (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install samtools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y samtools
+          samtools --version | head -1
+
+      - name: Install package into a virtualenv
+        # A venv reproduces the layout parallelbam relies on to locate its bash
+        # scripts: <venv>/lib/pythonX/site-packages/parallelbam alongside
+        # <venv>/bin/{splitBAM,mergeBAMs}.sh.
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install .
+          .venv/bin/python -m pip install -r requirements-dev.txt
+
+      - name: Run tests
+        # Use the pytest console script (not `python -m pytest`) so the repo root
+        # is kept off sys.path and the *installed* package is imported.
+        run: .venv/bin/pytest
