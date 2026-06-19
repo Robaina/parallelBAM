@@ -22,7 +22,11 @@ sort_by_name=${4:-1}
 threads=${5:-1}
 
 if [ "$sort_by_name" -eq 1 ]; then
-    reader=(samtools sort -n -@ "$threads" -O SAM "$2")
+    # Write samtools sort spill files under temp_BAM_chunks/ (via -T) so that,
+    # if the sort is interrupted (e.g. the downstream pipe closes early or the
+    # job is killed), the orphaned tmp.*.bam files land in the temp directory
+    # that the caller removes afterwards, instead of the output directory.
+    reader=(samtools sort -n -@ "$threads" -T "temp_BAM_chunks/samtools_sort" -O SAM "$2")
 else
     reader=(samtools view -h "$2")
 fi
